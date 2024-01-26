@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
+	"os"
 )
 
 func main() {
@@ -14,7 +16,12 @@ func main() {
 		w.Write([]byte("Hello, world!"))
 	})
 
-	log.Println("server is running on :80")
+	Port := os.Getenv("PORT")
+	if Port == "" {
+		Port = "8080"
+	}
+	httpPort := fmt.Sprintf(":%s", Port)
+	log.Println("server is running on ", httpPort)
 
-	log.Fatal(http.ListenAndServe(":80", nil))
+	log.Fatal(http.ListenAndServe(httpPort, nil))
 }
